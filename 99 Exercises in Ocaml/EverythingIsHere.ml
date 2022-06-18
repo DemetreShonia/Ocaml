@@ -30,5 +30,18 @@ let rec last = function
 
   let is_palindrome lst = lst = rev lst;; (*or List.rev*)
     (* palindrome is its reverse *)
-    
-  is_palindrome [1;1];;
+
+  (* is_palindrome [1;1];; *)
+
+  type 'a node =
+    | One of 'a 
+    | Many of 'a node list
+
+let flatten lst = 
+  let rec aux acc = function
+  | [] -> acc
+  | (One x) :: xs -> aux (x::acc) xs
+  | (Many x) :: xs -> aux (aux acc x) xs   
+  in rev (aux [] lst);;
+
+  (* flatten [One "a"; Many [One "b"; Many [One "c" ;One "d"]; One "e"]];; *)
