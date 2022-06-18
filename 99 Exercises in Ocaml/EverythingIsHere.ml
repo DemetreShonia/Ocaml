@@ -56,16 +56,29 @@ let rec compress = function
   (* - : string list = ["a"; "b"; "c"; "a"; "d"; "e"] *)
 
 
-  let pack list =
-    let rec aux current acc = function
-      | [] -> []    (* Can only be reached if original list is empty *)
-      | [x] -> (x :: current) :: acc
-      | a :: (b :: _ as t) ->
-         if a = b then aux (a :: current) acc t
-         else aux [] ((a :: current) :: acc) t  in
-    List.rev (aux [] [] list);;
-    
-    pack ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "d"; "e"; "e"; "e"; "e"];;
+    let pack lst =
+      let rec aux current acc = function
+      | [] -> []
+      | [x] -> (x::current) :: acc
+      | a::(b::_ as t) -> if a = b then aux (a::current) acc t
+      else aux [] ((a::current) :: acc) t
+      in aux [] [] lst;;
+
+    (* pack ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "d"; "e"; "e"; "e"; "e"];; *)
     (* - : string list list = *)
     (* [["a"; "a"; "a"; "a"]; ["b"]; ["c"; "c"]; ["a"; "a"]; ["d"; "d"]; *)
      (* ["e"; "e"; "e"; "e"]] *)
+
+
+
+     let encode lst =
+      let rec aux count acc = function
+      | [] -> []
+      | [x] -> (count + 1, x) :: acc
+      | a::(b::_ as t) -> if a = b then aux (count + 1) acc t
+      else aux 0 ((count + 1, a) :: acc) t
+      in aux 0 [] lst;;
+
+      encode ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"];;
+     (* - : (int * string) list = *)
+     (* [(4, "a"); (1, "b"); (2, "c"); (2, "a"); (1, "d"); (4, "e")] *)
