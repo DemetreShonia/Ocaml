@@ -26,4 +26,9 @@ let rec last = function
     | h::t -> aux (h::acc) t in
     aux [] l;;
 
-  rev [1;2;3];;
+  (* rev [1;2;3];; *)
+
+  let is_palindrome lst = lst = rev lst;; (*or List.rev*)
+    (* palindrome is its reverse *)
+    
+  is_palindrome [1;1];;
