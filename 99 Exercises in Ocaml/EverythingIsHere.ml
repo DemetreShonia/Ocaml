@@ -17,3 +17,8 @@ let rec last = function
       | _ :: t -> aux (n + 1) t
     in
     aux 0 list;;
+
+
+    let rec at k = function
+    | [] -> None
+    | h :: t -> if k = 0 then Some h else at (k - 1) t;;
