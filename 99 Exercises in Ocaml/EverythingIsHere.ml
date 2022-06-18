@@ -52,5 +52,20 @@ let rec compress = function
 | x :: (y::_ as t) -> if x = y then compress t else x :: compress t
 | last -> last;;
 
-  compress ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"];;
+  (* compress ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"];; *)
   (* - : string list = ["a"; "b"; "c"; "a"; "d"; "e"] *)
+
+
+  let pack list =
+    let rec aux current acc = function
+      | [] -> []    (* Can only be reached if original list is empty *)
+      | [x] -> (x :: current) :: acc
+      | a :: (b :: _ as t) ->
+         if a = b then aux (a :: current) acc t
+         else aux [] ((a :: current) :: acc) t  in
+    List.rev (aux [] [] list);;
+    
+    pack ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "d"; "e"; "e"; "e"; "e"];;
+    (* - : string list list = *)
+    (* [["a"; "a"; "a"; "a"]; ["b"]; ["c"; "c"]; ["a"; "a"]; ["d"; "d"]; *)
+     (* ["e"; "e"; "e"; "e"]] *)
