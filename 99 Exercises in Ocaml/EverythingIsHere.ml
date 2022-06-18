@@ -45,3 +45,12 @@ let flatten lst =
   in rev (aux [] lst);;
 
   (* flatten [One "a"; Many [One "b"; Many [One "c" ;One "d"]; One "e"]];; *)
+
+
+
+let rec compress = function
+| x :: (y::_ as t) -> if x = y then compress t else x :: compress t
+| last -> last;;
+
+  compress ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"];;
+  (* - : string list = ["a"; "b"; "c"; "a"; "d"; "e"] *)
