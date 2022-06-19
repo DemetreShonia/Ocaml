@@ -272,9 +272,25 @@ let range a b =
 let rec aux a b counter lst = if counter = b then rev (b::lst)
 else aux a b (counter + 1) (counter::lst) in aux a b a [];;
 
-range 3 5;;
-  
+(* range 3 5;; *)
 
+let rand_select list n =
+  let rec extract acc n = function
+    | [] -> raise Not_found
+    | h :: t -> if n = 0 then (h, acc @ t) else extract (h :: acc) (n - 1) t
+  in
+  let extract_rand list len =
+    extract [] (Random.int len) list
+  in
+  let rec aux n acc list len =
+    if n = 0 then acc else
+      let picked, rest = extract_rand list len in
+      aux (n - 1) (picked :: acc) rest (len - 1)
+  in
+  let len = List.length list in
+    aux (min n len) [] list len;;
+
+    (* rand_select ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 3;; *)
   
   
 (* # range 4 9;; *)
