@@ -173,5 +173,27 @@ let rec compress = function
             else aux (h::acc) (count -1) t
             in aux [] (n-1) (rev lst);;
 
-            drop ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;;
+            (* drop ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;; *)
           
+ (* this splits as n,n,n,n,n *)
+            let split lst n =
+              let rec aux current acc count = function
+              | [] -> acc
+              | h::t -> if count = 1 then aux [] ((h::current):: acc) n t
+              else aux (h::current) acc (count-1) t
+              in aux [] [] n (rev lst);;  
+
+
+            let split list n =
+              let rec aux i acc = function
+                | [] -> List.rev acc, []
+                | h :: t as l -> if i = 0 then List.rev acc, l
+                                  else aux (i - 1) (h :: acc) t 
+              in
+                aux n [] list;;
+
+            split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;;
+            (* - : string list * string list = *)
+            (* (["a"; "b"; "c"], ["d"; "e"; "f"; "g"; "h"; "i"; "j"]) *)
+            (* # split ["a"; "b"; "c"; "d"] 5;; *)
+            (* - : string list * string list = (["a"; "b"; "c"; "d"], []) *)
