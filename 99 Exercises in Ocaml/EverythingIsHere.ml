@@ -113,7 +113,7 @@ let rec compress = function
           in
             aux [] (List.rev list);;
         
-          decode [Many (4, "a"); One "b"; Many (2, "c"); Many (2, "a"); One "d"; Many (4, "e")];;
+          (* decode [Many (4, "a"); One "b"; Many (2, "c"); Many (2, "a"); One "d"; Many (4, "e")];; *)
         (* - : string list = *)
         (* ["a"; "a"; "a"; "a"; "b"; "c"; "c"; "a"; "a"; "d"; "e"; "e"; "e"; "e"] *)
 
@@ -137,3 +137,20 @@ let rec compress = function
                                   else aux 0 (rle count a :: acc) t
         in
           List.rev (aux 0 [] list);;
+
+
+
+        let rec duplicate = function
+        | [] -> []
+        | h::t -> h::h:: duplicate t;;
+
+        duplicate ["a"; "b"; "c"; "c"; "d"];;
+        
+          let duplicate lst = (*tail recursive*)
+            let rec aux acc = function
+            |[] -> acc
+            |h::t -> aux ((h::h::acc)) t
+            in aux [] (rev lst);;
+
+          duplicate ["a"; "b"; "c"; "c"; "d"];;
+          (* - : string list = ["a"; "a"; "b"; "b"; "c"; "c"; "c"; "c"; "d"; "d"] *)
