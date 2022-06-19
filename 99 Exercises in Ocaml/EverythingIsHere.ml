@@ -263,5 +263,19 @@ let remove_at id lst =
 let rec insert_at x n = function
 | [] -> [x]
 | h::t as l -> if n = 0 then x::l else h::insert_at x (n-1) t;;
-  insert_at "alfa" 2 ["a"; "b"; "c"; "d"];;
+  (* insert_at "alfa" 2 ["a"; "b"; "c"; "d"];; *)
   (* - : string list = ["a"; "alfa"; "b"; "c"; "d"] *)
+
+
+
+let range a b =
+let rec aux a b counter lst = if counter = b then rev (b::lst)
+else aux a b (counter + 1) (counter::lst) in aux a b a [];;
+
+range 3 5;;
+  
+
+  
+  
+(* # range 4 9;; *)
+(* - : int list = [4; 5; 6; 7; 8; 9] *)
