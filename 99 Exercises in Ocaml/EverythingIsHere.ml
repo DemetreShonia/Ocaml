@@ -140,9 +140,9 @@ let rec compress = function
 
 
 
-        let rec duplicate = function
-        | [] -> []
-        | h::t -> h::h:: duplicate t;;
+       let rec duplicate = function
+       | [] -> []
+       | h::t -> h::h::duplicate t;;
 
         duplicate ["a"; "b"; "c"; "c"; "d"];;
         
@@ -152,5 +152,17 @@ let rec compress = function
             |h::t -> aux ((h::h::acc)) t
             in aux [] (rev lst);;
 
-          duplicate ["a"; "b"; "c"; "c"; "d"];;
+          (* duplicate ["a"; "b"; "c"; "c"; "d"];; *)
           (* - : string list = ["a"; "a"; "b"; "b"; "c"; "c"; "c"; "c"; "d"; "d"] *)
+
+
+          let replicate list n =
+            let rec prepend n acc x =
+              if n = 0 then acc else prepend (n-1) (x :: acc) x in
+            let rec aux acc = function
+              | [] -> acc
+              | h :: t -> aux (prepend n acc h) t in
+            aux [] (List.rev list);;
+        
+          replicate ["a"; "b"; "c"] 3;;
+          
