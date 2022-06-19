@@ -192,8 +192,30 @@ let rec compress = function
               in
                 aux n [] list;;
 
-            split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;;
+
+            let split lst n =
+              let rec aux count acc = function
+              | [] -> (rev acc, [])
+              | h::t as l -> if count = 0 then (rev acc, l)
+              else aux (count -1) (h::acc) t in aux n [] lst;;
+
+            (* split ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;; *)
             (* - : string list * string list = *)
             (* (["a"; "b"; "c"], ["d"; "e"; "f"; "g"; "h"; "i"; "j"]) *)
             (* # split ["a"; "b"; "c"; "d"] 5;; *)
             (* - : string list * string list = (["a"; "b"; "c"; "d"], []) *)
+
+
+let slice lst a b =
+  let rec aux count acc = function
+  | [] -> rev acc
+  | h::t -> 
+  if count < a then aux (count + 1) acc t
+  else if count = b then rev (h::acc)
+  else aux (count + 1) (h::acc) t
+  in aux 0 [] (lst);;
+
+slice ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 2 6;;
+(* - : string list = ["c"; "d"; "e"; "f"; "g"] *)
+
+
