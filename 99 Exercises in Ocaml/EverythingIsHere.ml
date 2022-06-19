@@ -232,11 +232,36 @@ let slice lst a b =
 
 
 let rotate lst n = 
+  let k = n mod List.length(lst) in
   let rec aux count acc = function
   | [] -> []
   | h::t as m -> if count = 0 then m@(rev acc)
   else aux (count - 1) (h::acc) t
-  in aux n [] (lst);;
+  in aux k [] (lst);;
 
-  rotate ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 1;;
+  (* rotate ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 50;; *)
 
+
+  (* tail recursive *)
+let remove_at id lst = 
+  let rec aux count acc = function
+  | [] -> rev acc
+  | h::t  -> if count = 0 then aux (count -1 ) acc t
+  else aux (count - 1) (h::acc) t in
+  aux id []  (lst);; 
+
+  let rec remove_at n = function
+  | [] -> []
+  | h::t -> if n = 0 then t
+  else h:: remove_at (n-1) t;;
+
+
+  (* remove_at 0 ["a"; "b"; "c"; "d"];; *)
+  (* - : string list = ["a"; "c"; "d"] *)
+
+
+let rec insert_at x n = function
+| [] -> [x]
+| h::t as l -> if n = 0 then x::l else h::insert_at x (n-1) t;;
+  insert_at "alfa" 2 ["a"; "b"; "c"; "d"];;
+  (* - : string list = ["a"; "alfa"; "b"; "c"; "d"] *)
