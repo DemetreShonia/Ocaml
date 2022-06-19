@@ -215,7 +215,28 @@ let slice lst a b =
   else aux (count + 1) (h::acc) t
   in aux 0 [] (lst);;
 
-slice ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 2 6;;
+
+  let slice list i k =
+    let rec take n = function
+      | [] -> []
+      | h :: t -> if n = 0 then [] else h :: take (n - 1) t
+    in
+    let rec drop n = function
+      | [] -> []
+      | h :: t as l -> if n = 0 then l else drop (n - 1) t
+    in
+    take (k - i + 1) (drop i list);;
+
+(* slice ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 2 6;; *)
 (* - : string list = ["c"; "d"; "e"; "f"; "g"] *)
 
+
+let rotate lst n = 
+  let rec aux count acc = function
+  | [] -> []
+  | h::t as m -> if count = 0 then m@(rev acc)
+  else aux (count - 1) (h::acc) t
+  in aux n [] (lst);;
+
+  rotate ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 1;;
 
