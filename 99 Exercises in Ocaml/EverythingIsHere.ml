@@ -164,5 +164,14 @@ let rec compress = function
               | h :: t -> aux (prepend n acc h) t in
             aux [] (List.rev list);;
         
-          replicate ["a"; "b"; "c"] 3;;
+          (* replicate ["a"; "b"; "c"] 3;; *)
+
+          let drop lst n =
+            let rec aux acc count = function
+            | [] -> acc
+            | h::t -> if count = 1 then aux acc n t
+            else aux (h::acc) (count -1) t
+            in aux [] (n-1) (rev lst);;
+
+            drop ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j"] 3;;
           
