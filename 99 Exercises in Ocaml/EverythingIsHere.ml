@@ -290,8 +290,42 @@ let rand_select list n =
   let len = List.length list in
     aux (min n len) [] list len;;
 
-    (* rand_select ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 3;; *)
+    rand_select ["a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"] 1;;
   
   
 (* # range 4 9;; *)
 (* - : int list = [4; 5; 6; 7; 8; 9] *)
+
+(* let lotto_select n m = rand_select (range 1 m) n;; *)
+
+
+(* lotto_select 6 49;; *)
+
+(* we have to skip some *)
+
+let gray n =
+  let rec gray_next_level k l =
+    if k < n then
+      (* This is the core part of the Gray code construction.
+       * first_half is reversed and has a "0" attached to every element.
+       * Second part is reversed (it must be reversed for correct gray code).
+       * Every element has "1" attached to the front.*)
+      let (first_half,second_half) =
+        List.fold_left (fun (acc1,acc2) x ->
+            (("0" ^ x) :: acc1, ("1" ^ x) :: acc2)) ([], []) l
+      in
+      (* List.rev_append turns first_half around and attaches it to second_half.
+       * The result is the modified first_half in correct order attached to
+       * the second_half modified in reversed order.*)
+      gray_next_level (k + 1) (List.rev_append first_half second_half)
+    else l
+  in
+    gray_next_level 1 ["0"; "1"];;
+
+
+    (* gray 3;; *)
+
+
+    List.mapi (fun i x -> x * i) [1;2;5;6;7;8;3;0;213];;
+    List.fold_left (fun x y -> x-y) 0 [2;2;2;2];;
+    List.fold_right (fun x y -> x-y) [2;2;2;2] 0;;
