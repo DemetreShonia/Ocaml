@@ -14,8 +14,8 @@ let rec count n k =
     k when n == k -> ()
     |k -> count n (k+1)
 
-let spawn_counter n = Thread.create (count n ) 0;;
-Thread.join (spawn_counter 10);;
+    let spawn_counter n = Thread.create (count n ) 0;;
+(* Thread.join (spawn_counter 10);; *)
 
 let rec spawn_counters m n = 
     if m = 0 then []
@@ -26,8 +26,7 @@ let rec joinThreads t1 =
     |th::t -> Thread.join th; joinThreads t;;
 
 let run_counters m n = 
-    let t = spawn_counters m n in
-    joinThreads t;; 
+    joinThreads (spawn_counters m n);; 
 
 (* NEW IMPLEMENTATION *)
 let rec count (n,k,ch) =
@@ -44,6 +43,8 @@ let spawn_counter n =
     let _ = Thread.create count tpl in
     match n with
     n -> tpl
+
+
 
 let sendData ls = 
     let rec aux l = match l with
@@ -76,4 +77,6 @@ let rec crMchannels mm n acc = match mm with
 
 let run_counters m n = 
     let allChannels = crMchannels m n [] in
-    sendAndReceive allChannels n;
+    sendAndReceive allChannels n;;
+
+run_counters 100 9
