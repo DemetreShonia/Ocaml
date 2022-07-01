@@ -15,3 +15,13 @@ let pal = build_palindrome [1;2;3]
 let is_palindrome l = l = List.rev l;;
 
 is_palindrome pal
+
+
+let drop_last l =
+  let rec aux acc = function
+  | [] -> []
+  | [x] -> List.rev acc
+  | h::t -> aux (h::acc) t in aux [] l;;
+
+
+  drop_last [1; 2; 4; 8]
