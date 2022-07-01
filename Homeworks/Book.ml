@@ -6,3 +6,12 @@ let count_true l =
 
 
   count_true [true; false; true]
+
+let build_palindrome l =
+  l @ List.rev l;;
+
+let pal = build_palindrome [1;2;3]
+
+let is_palindrome l = l = List.rev l;;
+
+is_palindrome pal
